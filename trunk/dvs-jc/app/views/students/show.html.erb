@@ -1,56 +1,49 @@
 <p id="notice"><%= notice %></p>
 
-<h1>
-  <%= @student.first_name %>
-  <%= @student.last_name %>
-</h1>
+<h2>
+  <%= @student.first_name %> <%= @student.last_name %> (age <%= @student.age %>) <%= link_to 'Edit', edit_student_path(@student) %>
+</h2>
 
+<h4>JC days sentenced: <%= @student.jc_days_sentenced %></h4>
+
+<h4>Past JC substitutions (<%= @student.jc_substitutions.count %>):</h4>
 <p>
-  Born on <%= @student.date_of_birth %>
+  <ul>
+    <% @student.jc_substitutions.sort_by(&:day).each do |jc_substitution| %>
+    <li>
+      <%= jc_substitution.day.strftime('%b %-d, %Y') %>
+      <%= link_to '[X]', [jc_substitution.student, jc_substitution], :confirm => 'Are you sure?', :method => :delete %>
+    </li>
+    <% end %>
+  </ul>
 </p>
 
 <p>
-  Has been sentenced to serve <%= @student.jc_days_sentenced %> days
-  on JC.  Has substituted <%= @student.jc_substitutions.count %> days
-  so far.
-</p>
-
-<h2>JC Substitutions</h2>
-<% @student.jc_substitutions.each do |jc_substitution| %>
-  <p>
-    <%= jc_substitution.day %>
-  </p>
-<% end %>
-
-<h2>Add a JC substitution:</h2>
-<%= form_for([@student, @student.jc_substitutions.build]) do |f| %>
+  <%= form_for([@student, @student.jc_substitutions.build]) do |f| %>
   <div class="field">
-    <%= f.label :day %><br />
-    <%= f.date_select :day %>
+    <%= f.date_select :day, {:order=>[:month,:day,:year]} %>
+    <%= f.submit 'Add' %>
   </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+  <% end %>
+</p>
 
-<h2>JC Absences</h2>
-<p>Has been absent <%= @student.jc_absences.count %> days.</p>
-<% @student.jc_absences.each do |jc_absence| %>
-  <p>
-    <%= jc_absence.day %>
-  </p>
-<% end %>
+<h4>Past JC absences (<%= @student.jc_absences.count %>):</h4>
+<p>
+  <ul>
+    <% @student.jc_absences.sort_by(&:day).each do |jc_absence| %>
+    <li>
+      <%= jc_absence.day.strftime('%b %-d, %Y') %>
+      <%= link_to '[X]', [jc_absence.student, jc_absence], :confirm => 'Are you sure?', :method => :delete %>
+    </li>
+    <% end %>
+  </ul>
+</p>
 
-<h2>Add a JC absence:</h2>
 <%= form_for([@student, @student.jc_absences.build]) do |f| %>
   <div class="field">
-    <%= f.label :day %><br />
-    <%= f.date_select :day %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
+    <%= f.date_select :day, {:order=>[:month,:day,:year]} %>
+    <%= f.submit 'Add' %>
   </div>
 <% end %>
 
-<%= link_to 'Edit', edit_student_path(@student) %> |
 <%= link_to 'Back', students_path %>

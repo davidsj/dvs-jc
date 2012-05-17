@@ -1,2 +1,9 @@
-<h1>DVS JC</h1>
-<p><%= link_to "Students", students_path %></p>
+<h3>Students <%= link_to '[Add]', new_student_path %></h3>
+<ul>
+  <% Student.where({}).sort_by(&:first_name).sort_by(&:last_name).each do |student| %>
+  <li>
+    <%= student.last_name %>, <%= student.first_name %> (age <%= student.age %>)
+    <%= link_to 'Show', student %>
+  </li>
+<% end %>
+</ul>

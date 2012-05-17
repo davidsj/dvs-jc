@@ -5,6 +5,16 @@ class Student < ActiveRecord::Base
   validates :jc_days_sentenced, :presence => true
   validates :date_of_birth,     :presence => true
 
-  has_many :jc_absences
-  has_many :jc_substitutions
+  has_many :jc_absences, :dependent => :destroy
+  has_many :jc_substitutions, :dependent => :destroy
+
+  def age
+    today = Date.today
+    age = today.year - date_of_birth.year
+    if today.month < date_of_birth.month or (today.month == date_of_birth.month and today.day < date_of_birth.day)
+      age -= 1
+    end
+    
+    return age
+  end
 end
