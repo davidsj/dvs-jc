@@ -1,28 +1,13 @@
-<h1>All Diablo Valley Students</h1>
+<h1>DVS Students</h1>
 
-<table>
-  <tr>
-    <th>First,</th>
-    <th>Last name</th>
-    <th>DOB</th>
-    <th>JC days sentenced</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @students.each do |student| %>
-  <tr>
-    <td><%= student.first_name %></td>
-    <td><%= student.last_name %></td>
-    <td><%= student.date_of_birth %></td>
-    <td><%= student.jc_days_sentenced %></td>
-    <td><%= link_to 'Show', student %></td>
-    <td><%= link_to 'Edit', edit_student_path(student) %></td>
-    <td><%= link_to 'Remove', student, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+<ul>
+  <% @students.sort_by(&:first_name).sort_by(&:last_name).each do |student| %>
+  <li>
+    <%= student.last_name %>, <%= student.first_name %> (age <%= student.age %>)
+    <%= link_to 'Show', student %>
+  </li>
 <% end %>
-</table>
+</ul>
 
 <br />
 
