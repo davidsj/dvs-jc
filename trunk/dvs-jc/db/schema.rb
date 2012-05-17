@@ -10,16 +10,25 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120411230752) do
+ActiveRecord::Schema.define(:version => 20120412005528) do
 
-  create_table "school_meeting_members", :force => true do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.date     "date_of_birth"
-    t.integer  "jc_days_sentenced"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+  create_table "jc_absences", :force => true do |t|
+    t.date     "day"
+    t.integer  "student_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
+
+  add_index "jc_absences", ["student_id"], :name => "index_jc_absences_on_student_id"
+
+  create_table "jc_substitutions", :force => true do |t|
+    t.date     "day"
+    t.integer  "student_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "jc_substitutions", ["student_id"], :name => "index_jc_substitutions_on_student_id"
 
   create_table "students", :force => true do |t|
     t.string   "first_name"

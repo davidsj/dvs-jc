@@ -1,5 +1,9 @@
+# -*- coding: undecided -*-
 DvsJc::Application.routes.draw do
-  resources :students
+  resources :students do
+    resources :jc_absences
+    resources :jc_substitutions
+  end
 
   get "home/index"
 
@@ -24,7 +28,7 @@ DvsJc::Application.routes.draw do
   #       post 'toggle'
   #     end
   #
-  #     collection do
+  #     collection do¯
   #       get 'sold'
   #     end
   #   end
