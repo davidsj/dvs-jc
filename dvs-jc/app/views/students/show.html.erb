@@ -10,11 +10,47 @@
 </p>
 
 <p>
-  Has been sentenced to serve
-  <%= @student.jc_days_sentenced %>
-  days on JC
+  Has been sentenced to serve <%= @student.jc_days_sentenced %> days
+  on JC.  Has substituted <%= @student.jc_substitutions.count %> days
+  so far.
 </p>
 
+<h2>JC Substitutions</h2>
+<% @student.jc_substitutions.each do |jc_substitution| %>
+  <p>
+    <%= jc_substitution.day %>
+  </p>
+<% end %>
+
+<h2>Add a JC substitution:</h2>
+<%= form_for([@student, @student.jc_substitutions.build]) do |f| %>
+  <div class="field">
+    <%= f.label :day %><br />
+    <%= f.date_select :day %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<h2>JC Absences</h2>
+<p>Has been absent <%= @student.jc_absences.count %> days.</p>
+<% @student.jc_absences.each do |jc_absence| %>
+  <p>
+    <%= jc_absence.day %>
+  </p>
+<% end %>
+
+<h2>Add a JC absence:</h2>
+<%= form_for([@student, @student.jc_absences.build]) do |f| %>
+  <div class="field">
+    <%= f.label :day %><br />
+    <%= f.date_select :day %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
 
 <%= link_to 'Edit', edit_student_path(@student) %> |
 <%= link_to 'Back', students_path %>
