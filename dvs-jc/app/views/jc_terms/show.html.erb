@@ -19,9 +19,22 @@
   </ul>
 </p>
 
-<%= form_for([@jc_term, @jc_term.jc_memberships.build]) do |f| %>
-  <div class="field">
-    <%= f.collection_select :student_id, @jc_term.available_students, :id, :name_for_jc_selection %>
-    <%= f.submit 'Add' %>
-  </div>
-<% end %>
+<h4>Add Member</h4>
+<p>
+  <%= form_for([@jc_term, @jc_term.jc_memberships.build]) do |f| %>
+  <table>
+    <% @jc_term.available_students.each do |student| %>
+    <tr>
+      <td>
+        <%= f.radio_button :student_id, student.id %>
+        <%= link_to student.full_name, student %>
+      </td>
+      <% student.jc_selection_values.each do |val| %>
+      <td><%= val %></td>
+      <% end %>
+    </tr>
+    <% end %>
+  </table>
+  <%= f.submit 'Add' %>
+  <% end %>
+</p>

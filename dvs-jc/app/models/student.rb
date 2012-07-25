@@ -36,11 +36,19 @@ class Student < ActiveRecord::Base
     full_name + " (" + age.to_s + " y/o)"
   end
 
+  def jc_selection_values
+    [pluralize(jc_terms.count, "term") + ",",
+     pluralize(jc_days_sentenced, "day") + " sentenced,",
+     pluralize(jc_absences.count, "absence") + ",",
+     pluralize(jc_substitutions.count, "sub") + ",",
+     age.to_s + " y/o"]
+  end
+  
   def jc_selection_suffix
     "(" + pluralize(jc_terms.count, "term") + " served, " +
       pluralize(jc_days_sentenced, "day") + " sentenced, " +
       pluralize(jc_absences.count, "absence") + ", " +
-      pluralize(jc_substitutions.count, "substitution") + ", " +
+      pluralize(jc_substitutions.count, "sub") + ", " +
       age.to_s + " y/o)"
   end
 
