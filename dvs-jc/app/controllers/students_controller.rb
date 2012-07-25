@@ -1,15 +1,4 @@
 class StudentsController < ApplicationController
-  # GET /students
-  # GET /students.json
-  def index
-    @students = Student.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render :json => @students }
-    end
-  end
-
   # GET /students/1
   # GET /students/1.json
   def show
@@ -76,7 +65,7 @@ class StudentsController < ApplicationController
     @student.destroy
 
     respond_to do |format|
-      format.html { redirect_to students_url }
+      format.html { redirect_to root_path }
       format.json { head :no_content }
     end
   end

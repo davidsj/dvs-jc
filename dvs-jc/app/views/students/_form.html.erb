@@ -24,8 +24,8 @@
     <%= f.date_select :date_of_birth, {:order=>[:month,:day,:year], :start_year=>Date.today.year-22, :end_year=>Date.today.year-3} %>
   </div>
   <div class="field">
-    <%= f.label :jc_days_sentenced %><br />
-    <%= f.number_field :jc_days_sentenced %>
+    <%= f.label :jc_days_sentenced, "Sentenced to serve on JC" %><br />
+    <%= f.number_field :jc_days_sentenced %> days
   </div>
   <div class="actions">
     <%= f.submit %>

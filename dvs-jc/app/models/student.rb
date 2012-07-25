@@ -8,6 +8,12 @@ class Student < ActiveRecord::Base
   has_many :jc_absences, :dependent => :destroy
   has_many :jc_substitutions, :dependent => :destroy
 
+  after_initialize :init
+
+  def init
+    self.jc_days_sentenced ||= 0
+  end
+
   def age
     today = Date.today
     age = today.year - date_of_birth.year

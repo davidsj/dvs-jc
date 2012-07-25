@@ -4,7 +4,7 @@
   <%= @student.first_name %> <%= @student.last_name %> (age <%= @student.age %>) <%= link_to 'Edit', edit_student_path(@student) %>
 </h2>
 
-<h4>JC days sentenced: <%= @student.jc_days_sentenced %></h4>
+<h4>Sentenced to serve on JC: <%= @student.jc_days_sentenced %> days</h4>
 
 <h4>Past JC substitutions (<%= @student.jc_substitutions.count %>):</h4>
 <p>
