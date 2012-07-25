@@ -36,16 +36,11 @@ class Student < ActiveRecord::Base
     full_name + " (" + age.to_s + " y/o)"
   end
 
-  def jc_terms_served_this_year
-    first_day = Date.new(Date.today.year, 7, 15)
-    if first_day > Date.today
-      first_day = first_day.prev_year
-    end
-    jc_terms.select{|t| t.start_date >= first_day}.count
-  end
-
   def jc_selection_suffix
-    "(" + pluralize(jc_terms_served_this_year, " term") + " this year, " +
+    "(" + pluralize(jc_terms.count, "term") + " served, " +
+      pluralize(jc_days_sentenced, "day") + " sentenced, " +
+      pluralize(jc_absences.count, "absence") + ", " +
+      pluralize(jc_substitutions.count, "substitution") + ", " +
       age.to_s + " y/o)"
   end
 
