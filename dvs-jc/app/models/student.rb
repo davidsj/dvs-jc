@@ -1,4 +1,6 @@
 class Student < ActiveRecord::Base
+  include ActionView::Helpers::TextHelper
+
   attr_accessible :date_of_birth, :first_name, :jc_days_sentenced, :last_name
   validates :first_name,        :presence => true
   validates :last_name,         :presence => true
@@ -7,6 +9,8 @@ class Student < ActiveRecord::Base
 
   has_many :jc_absences, :dependent => :destroy
   has_many :jc_substitutions, :dependent => :destroy
+  has_many :jc_memberships, :dependent => :destroy
+  has_many :jc_terms, :through => :jc_memberships
 
   after_initialize :init
 
@@ -22,5 +26,38 @@ class Student < ActiveRecord::Base
     end
     
     return age
+  end
+
+  def full_name
+    first_name + " " + last_name
+  end
+
+  def name_and_age
+    full_name + " (" + age.to_s + " y/o)"
+  end
+
+  def jc_terms_served_this_year
+    first_day = Date.new(Date.today.year, 7, 15)
+    if first_day > Date.today
+      first_day = first_day.prev_year
+    end
+    jc_terms.select{|t| t.start_date >= first_day}.count
+  end
+
+  def jc_selection_suffix
+    "(" + pluralize(jc_terms_served_this_year, " term") + " this year, " +
+      age.to_s + " y/o)"
+  end
+
+  def name_for_jc_selection
+    full_name + " " + jc_selection_suffix
+  end
+
+  def sorted_jc_memberships
+    jc_memberships.sort_by{|x| x.jc_term.start_date}.reverse
+  end
+
+  def available_jc_terms
+    JcTerm.all.reject{|t| jc_terms.find_by_id(t.id)}.sort_by(&:start_date).reverse
   end
 end

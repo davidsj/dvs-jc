@@ -1,18 +1,20 @@
 <p id="notice"><%= notice %></p>
 
 <h2>
-  <%= @student.first_name %> <%= @student.last_name %> (age <%= @student.age %>) <%= link_to 'Edit', edit_student_path(@student) %>
+  <%= @student.name_and_age %> <%= link_to 'Edit', edit_student_path(@student) %>
 </h2>
 
-<h4>Sentenced to serve on JC: <%= @student.jc_days_sentenced %> days</h4>
+Sentenced to serve
+<strong><%= pluralize(@student.jc_days_sentenced, "day") %></strong>
+on JC.
 
 <h4>Past JC substitutions (<%= @student.jc_substitutions.count %>):</h4>
 <p>
   <ul>
-    <% @student.jc_substitutions.sort_by(&:day).each do |jc_substitution| %>
+    <% @student.jc_substitutions.sort_by(&:day).reverse.each do |jc_substitution| %>
     <li>
       <%= jc_substitution.day.strftime('%b %-d, %Y') %>
-      <%= link_to '[X]', [jc_substitution.student, jc_substitution], :confirm => 'Are you sure?', :method => :delete %>
+      <%= link_to '[X]', [@student, jc_substitution], :confirm => 'Are you sure?', :method => :delete %>
     </li>
     <% end %>
   </ul>
@@ -30,10 +32,10 @@
 <h4>Past JC absences (<%= @student.jc_absences.count %>):</h4>
 <p>
   <ul>
-    <% @student.jc_absences.sort_by(&:day).each do |jc_absence| %>
+    <% @student.jc_absences.sort_by(&:day).reverse.each do |jc_absence| %>
     <li>
       <%= jc_absence.day.strftime('%b %-d, %Y') %>
-      <%= link_to '[X]', [jc_absence.student, jc_absence], :confirm => 'Are you sure?', :method => :delete %>
+      <%= link_to '[X]', [@student, jc_absence], :confirm => 'Are you sure?', :method => :delete %>
     </li>
     <% end %>
   </ul>
@@ -42,6 +44,25 @@
 <%= form_for([@student, @student.jc_absences.build]) do |f| %>
   <div class="field">
     <%= f.date_select :day, {:order=>[:month,:day,:year]} %>
+    <%= f.submit 'Add' %>
+  </div>
+<% end %>
+
+<h4>JC terms served (<%= @student.jc_memberships.count.to_s + " total, " + @student.jc_terms_served_this_year.to_s %> this year):</h4>
+<p>
+  <ul>
+    <% @student.sorted_jc_memberships.each do |membership| %>
+    <li>
+      <%= link_to membership.jc_term.name, membership.jc_term %>
+      <%= link_to '[X]', [@student, membership], :confirm => 'Are you sure?', :method => :delete %>
+    </li>
+    <% end %>
+  </ul>
+</p>
+
+<%= form_for([@student, @student.jc_memberships.build]) do |f| %>
+  <div class="field">
+    <%= f.collection_select :jc_term_id, @student.available_jc_terms, :id, :name_for_jc_selection %>
     <%= f.submit 'Add' %>
   </div>
 <% end %>

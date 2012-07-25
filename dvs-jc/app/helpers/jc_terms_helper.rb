@@ -1,0 +1,2 @@
+module JcTermsHelper
+end

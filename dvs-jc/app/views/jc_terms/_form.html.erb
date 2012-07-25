@@ -1,0 +1,22 @@
+<%= form_for(@jc_term) do |f| %>
+  <% if @jc_term.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@jc_term.errors.count, "error") %> prohibited this jc_term from being saved:</h2>
+
+      <ul>
+      <% @jc_term.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :start_date %><br />
+    <%= f.date_select :start_date, {:order=>[:month,:day,:year]} %>
+  </div>
+  <%=  %>
+  <div class="actions">
+    <%= f.submit 'Create JC Term' %>
+  </div>
+<% end %>

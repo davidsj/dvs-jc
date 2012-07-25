@@ -1,7 +1,12 @@
-# -*- coding: undecided -*-
+# -*- coding: iso-8859-1 -*-
 DvsJc::Application.routes.draw do
+  resources :jc_terms do
+    resources :jc_memberships
+  end
+
   resources :students do
     resources :jc_absences
+    resources :jc_memberships
     resources :jc_substitutions
   end
 
