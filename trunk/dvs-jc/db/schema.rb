@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120412005528) do
+ActiveRecord::Schema.define(:version => 20120725055337) do
 
   create_table "jc_absences", :force => true do |t|
     t.date     "day"
@@ -19,7 +19,17 @@ ActiveRecord::Schema.define(:version => 20120412005528) do
     t.datetime "updated_at", :null => false
   end
 
-  add_index "jc_absences", ["student_id"], :name => "index_jc_absences_on_student_id"
+  add_index "jc_absences", ["student_id", "day"], :name => "index_jc_absences_on_student_id_and_day", :unique => true
+
+  create_table "jc_memberships", :force => true do |t|
+    t.integer  "student_id"
+    t.integer  "jc_term_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "jc_memberships", ["jc_term_id", "student_id"], :name => "index_jc_memberships_on_jc_term_id_and_student_id", :unique => true
+  add_index "jc_memberships", ["student_id"], :name => "index_jc_memberships_on_student_id"
 
   create_table "jc_substitutions", :force => true do |t|
     t.date     "day"
@@ -28,7 +38,15 @@ ActiveRecord::Schema.define(:version => 20120412005528) do
     t.datetime "updated_at", :null => false
   end
 
-  add_index "jc_substitutions", ["student_id"], :name => "index_jc_substitutions_on_student_id"
+  add_index "jc_substitutions", ["student_id", "day"], :name => "index_jc_substitutions_on_student_id_and_day", :unique => true
+
+  create_table "jc_terms", :force => true do |t|
+    t.date     "start_date"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "jc_terms", ["start_date"], :name => "index_jc_terms_on_start_date", :unique => true
 
   create_table "students", :force => true do |t|
     t.string   "first_name"

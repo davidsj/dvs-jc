@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h2>
+  <%= if @jc_term.prev then link_to '←', @jc_term.prev end %>
+  <%= @jc_term.name %>
+  Judicial Committee
+  <%= if @jc_term.next then link_to '→', @jc_term.next end %>
+</h2>
+
+<h4>Members (<%= @jc_term.jc_memberships.count %>):</h4>
+<p>
+  <ul>
+    <% @jc_term.sorted_jc_memberships.each do |membership| %>
+    <li>
+      <%= link_to membership.student.full_name, membership.student %> <%= membership.student.jc_selection_suffix %>
+      <%= link_to '[X]', [@jc_term, membership], :confirm => 'Are you sure?', :method => :delete %>
+    </li>
+    <% end %>
+  </ul>
+</p>
+
+<%= form_for([@jc_term, @jc_term.jc_memberships.build]) do |f| %>
+  <div class="field">
+    <%= f.collection_select :student_id, @jc_term.available_students, :id, :name_for_jc_selection %>
+    <%= f.submit 'Add' %>
+  </div>
+<% end %>

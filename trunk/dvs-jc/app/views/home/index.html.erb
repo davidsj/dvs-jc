@@ -1,10 +1,20 @@
-<h3>Students <%= link_to '[Add]', new_student_path %></h3>
+<h3>JC Terms (<%= @jc_terms.count %>) <%= link_to '[Add]', new_jc_term_path %></h3>
 <ul>
-  <% Student.where({}).sort_by(&:first_name).sort_by(&:last_name).each do |student| %>
+  <% @jc_terms.each do |jc_term| %>
   <li>
-    <%= link_to (student.last_name + ', ' + student.first_name), student %>
-    (age <%= student.age %>)
+    <%= link_to jc_term.name, jc_term %>
+    <%= link_to '[X]', jc_term, :confirm => 'Are you sure?', :method => :delete %>
+  </li>
+<% end %>
+</ul>
+
+<h3>Students (<%= @students.count %>) <%= link_to '[Add]', new_student_path %></h3>
+<ul>
+  <% @students.each do |student| %>
+  <li>
+    <%= link_to student.full_name, student %> (<%= student.age %> y/o)
     <%= link_to '[X]', student, :confirm => 'Are you sure?', :method => :delete %>
   </li>
 <% end %>
 </ul>
+

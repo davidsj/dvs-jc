@@ -6,6 +6,6 @@ class CreateJcSubstitutions < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :jc_substitutions, :student_id
+    add_index :jc_substitutions, [:student_id, :day], :unique => true
   end
 end
