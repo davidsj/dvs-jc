@@ -4,6 +4,7 @@
   <li>
     <%= link_to (student.last_name + ', ' + student.first_name), student %>
     (age <%= student.age %>)
+    <%= link_to '[X]', student, :confirm => 'Are you sure?', :method => :delete %>
   </li>
 <% end %>
 </ul>
