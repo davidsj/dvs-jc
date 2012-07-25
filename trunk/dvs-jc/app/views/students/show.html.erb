@@ -48,7 +48,7 @@ on JC.
   </div>
 <% end %>
 
-<h4>JC terms served (<%= @student.jc_memberships.count.to_s + " total, " + @student.jc_terms_served_this_year.to_s %> this year):</h4>
+<h4>JC terms served (<%= @student.jc_terms.count.to_s %>):</h4>
 <p>
   <ul>
     <% @student.sorted_jc_memberships.each do |membership| %>

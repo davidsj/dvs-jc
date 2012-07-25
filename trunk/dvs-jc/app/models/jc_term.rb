@@ -43,7 +43,9 @@ class JcTerm < ActiveRecord::Base
   end
 
   def available_students
-    Student.all.reject{|s| students.find_by_id(s.id)}.sort_by(&:age).
-      sort_by(&:jc_terms_served_this_year)
+    Student.all.reject{|s| students.find_by_id(s.id)}.
+      sort_by{|s| [s.age,
+                   s.jc_terms.count,
+                   s.jc_substitutions.count - s.jc_days_sentenced - s.jc_absences.count]}
   end
 end
